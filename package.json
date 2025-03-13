@@ -1,0 +1,24 @@
+{
+  "name": "api-watcher",
+  "version": "1.0.0",
+  "description": "API Status Monitoring Application",
+  "main": "index.js",
+  "scripts": {
+    "start:frontend": "cd frontend && npm start",
+    "start:backend": "cd backend/mock && npm start",
+    "start:all": "concurrently \"npm run start:frontend\" \"npm run start:backend\"",
+    "install:all": "npm install && cd frontend && npm install && cd ../backend/mock && npm install",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "api",
+    "monitoring",
+    "status",
+    "dashboard"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "concurrently": "^8.2.0"
+  }
+} 
