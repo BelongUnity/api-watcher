@@ -1,8 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 import store from './redux/store';
 
@@ -10,6 +8,8 @@ import store from './redux/store';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import PrivateRoute from './components/routing/PrivateRoute';
+import AlertSocketManager from './components/alerts/AlertSocketManager';
+import ToastManager from './components/alerts/ToastManager';
 
 // Pages
 import Dashboard from './components/Dashboard';
@@ -20,6 +20,10 @@ import ApiForm from './pages/ApiForm';
 import Profile from './pages/Profile';
 import NotFound from './pages/NotFound';
 import LandingPage from './pages/LandingPage';
+import Analytics from './pages/Analytics';
+import AlertsPage from './pages/AlertsPage';
+import SecurityPage from './pages/SecurityPage';
+import ApiSecurityDetail from './pages/ApiSecurityDetail';
 
 function App() {
   return (
@@ -37,12 +41,17 @@ function App() {
               <Route path="/api/new" element={<PrivateRoute component={ApiForm} />} />
               <Route path="/api/edit/:id" element={<PrivateRoute component={ApiForm} />} />
               <Route path="/profile" element={<PrivateRoute component={Profile} />} />
+              <Route path="/analytics" element={<PrivateRoute component={Analytics} />} />
+              <Route path="/alerts" element={<PrivateRoute component={AlertsPage} />} />
+              <Route path="/security" element={<PrivateRoute component={SecurityPage} />} />
+              <Route path="/security/:id" element={<PrivateRoute component={ApiSecurityDetail} />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
           <Footer />
         </div>
-        <ToastContainer position="top-right" autoClose={3000} />
+        <AlertSocketManager />
+        <ToastManager />
       </Router>
     </Provider>
   );

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../redux/slices/authSlice';
+import AlertBadge from '../alerts/AlertBadge';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -53,6 +54,16 @@ const Header = () => {
               <>
                 <Link to="/dashboard" className="btn btn-link text-decoration-none me-3">
                   <i className="fas fa-tachometer-alt me-1"></i> Dashboard
+                </Link>
+                <Link to="/analytics" className="btn btn-link text-decoration-none me-3">
+                  <i className="fas fa-chart-bar me-1"></i> Analytics
+                </Link>
+                <Link to="/security" className="btn btn-link text-decoration-none me-3">
+                  <i className="fas fa-shield-alt me-1"></i> Security
+                </Link>
+                <Link to="/alerts" className="btn btn-link text-decoration-none me-3">
+                  <AlertBadge standalone={false} />
+                  <span className="ms-1">Alerts</span>
                 </Link>
                 <Link to="/api/new" className="btn btn-outline-primary me-3">
                   <i className="fas fa-plus-circle me-1"></i> Add API
@@ -106,6 +117,18 @@ const Header = () => {
                 <>
                   <Link to="/dashboard" className="btn btn-link text-decoration-none text-start py-2" onClick={toggleMenu}>
                     <i className="fas fa-tachometer-alt me-2"></i> Dashboard
+                  </Link>
+                  <Link to="/analytics" className="btn btn-link text-decoration-none text-start py-2" onClick={toggleMenu}>
+                    <i className="fas fa-chart-bar me-2"></i> Analytics
+                  </Link>
+                  <Link to="/security" className="btn btn-link text-decoration-none text-start py-2" onClick={toggleMenu}>
+                    <i className="fas fa-shield-alt me-2"></i> Security
+                  </Link>
+                  <Link to="/alerts" className="btn btn-link text-decoration-none text-start py-2" onClick={toggleMenu}>
+                    <div className="d-flex align-items-center">
+                      <AlertBadge standalone={false} />
+                      <span className="ms-2">Alerts</span>
+                    </div>
                   </Link>
                   <Link to="/api/new" className="btn btn-link text-decoration-none text-start py-2" onClick={toggleMenu}>
                     <i className="fas fa-plus-circle me-2"></i> Add API

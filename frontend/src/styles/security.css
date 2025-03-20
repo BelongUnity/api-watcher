@@ -1,0 +1,168 @@
+/* Security Dashboard Styles */
+
+.security-score-container {
+  text-align: center;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.security-score-circle {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.security-score-circle:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.score-value {
+  font-size: 3rem;
+  font-weight: bold;
+  line-height: 1;
+  margin-bottom: 5px;
+}
+
+.score-label {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  opacity: 0.8;
+}
+
+.score-success {
+  background-color: rgba(40, 167, 69, 0.1);
+  color: #28a745;
+  border: 3px solid #28a745;
+}
+
+.score-warning {
+  background-color: rgba(255, 193, 7, 0.1);
+  color: #ffc107;
+  border: 3px solid #ffc107;
+}
+
+.score-danger {
+  background-color: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+  border: 3px solid #dc3545;
+}
+
+.security-check-item {
+  transition: all 0.2s ease;
+}
+
+.security-check-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.security-detail-header {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.security-recommendation {
+  background-color: #f8f9fa;
+  border-left: 4px solid #17a2b8;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 0 4px 4px 0;
+}
+
+.security-recommendation-critical {
+  border-left-color: #dc3545;
+}
+
+.security-recommendation-high {
+  border-left-color: #fd7e14;
+}
+
+.security-recommendation-medium {
+  border-left-color: #ffc107;
+}
+
+.security-recommendation-low {
+  border-left-color: #17a2b8;
+}
+
+.security-header-missing {
+  background-color: rgba(220, 53, 69, 0.05);
+}
+
+.security-header-present {
+  background-color: rgba(40, 167, 69, 0.05);
+}
+
+.security-certificate-valid {
+  color: #28a745;
+}
+
+.security-certificate-expiring {
+  color: #ffc107;
+}
+
+.security-certificate-expired {
+  color: #dc3545;
+}
+
+.security-vulnerability-item {
+  border-left: 4px solid #17a2b8;
+  padding-left: 15px;
+  margin-bottom: 15px;
+}
+
+.security-vulnerability-critical {
+  border-left-color: #dc3545;
+}
+
+.security-vulnerability-high {
+  border-left-color: #fd7e14;
+}
+
+.security-vulnerability-medium {
+  border-left-color: #ffc107;
+}
+
+.security-vulnerability-low {
+  border-left-color: #17a2b8;
+}
+
+/* Animations */
+.security-pulse {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(40, 167, 69, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .security-score-circle {
+    width: 100px;
+    height: 100px;
+    font-size: 2rem;
+  }
+} 

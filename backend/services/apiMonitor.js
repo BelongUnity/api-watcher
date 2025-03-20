@@ -2,6 +2,12 @@ const axios = require('axios');
 const Api = require('../models/Api');
 const StatusHistory = require('../models/StatusHistory');
 const notificationService = require('./notificationService');
+let alertService = null;
+
+// This will be set when the server starts
+const setAlertService = (service) => {
+  alertService = service;
+};
 
 /**
  * Check the status of a single API
@@ -135,6 +141,33 @@ const updateApiStatus = async (api, statusResult) => {
       );
     }
     
+    // Create an alert for status change
+    if (alertService && statusResult.status === 'down') {
+      try {
+        // Check if the API has a valid owner
+        if (!api.owner) {
+          console.warn(`Cannot create alert: API ${api.name} has no owner`);
+        } else {
+          await alertService.createAlert({
+            user: api.owner,
+            api: api._id,
+            alertType: 'Downtime',
+            severity: 'Critical',
+            message: `API ${api.name} is down: ${statusResult.message}`,
+            details: {
+              previousStatus,
+              statusCode: statusResult.statusCode,
+              responseTime: statusResult.responseTime,
+              timestamp: statusResult.timestamp
+            }
+          });
+          console.log(`Created downtime alert for API ${api.name}`);
+        }
+      } catch (error) {
+        console.error('Error creating alert:', error);
+      }
+    }
+    
     // Try to emit socket event if io is available
     try {
       const io = require('../server').io;
@@ -159,6 +192,58 @@ const updateApiStatus = async (api, statusResult) => {
     api.notificationSettings.onPerformanceIssue
   ) {
     await notificationService.sendPerformanceNotification(api, statusResult);
+    
+    // Create an alert for performance issue
+    if (alertService) {
+      try {
+        // Check if the API has a valid owner
+        if (!api.owner) {
+          console.warn(`Cannot create alert: API ${api.name} has no owner`);
+        } else {
+          await alertService.createAlert({
+            user: api.owner,
+            api: api._id,
+            alertType: 'HighLatency',
+            severity: 'Medium',
+            message: `API ${api.name} is experiencing high latency: ${statusResult.responseTime}ms (expected: ${api.expectedResponseTime}ms)`,
+            details: {
+              responseTime: statusResult.responseTime,
+              expectedResponseTime: api.expectedResponseTime,
+              timestamp: statusResult.timestamp
+            }
+          });
+          console.log(`Created high latency alert for API ${api.name}`);
+        }
+      } catch (error) {
+        console.error('Error creating alert:', error);
+      }
+    }
+  }
+  
+  // If API was down and is now up, create a recovery alert
+  if (previousStatus === 'down' && statusResult.status === 'up' && alertService) {
+    try {
+      // Check if the API has a valid owner
+      if (!api.owner) {
+        console.warn(`Cannot create recovery alert: API ${api.name} has no owner`);
+      } else {
+        await alertService.createAlert({
+          user: api.owner,
+          api: api._id,
+          alertType: 'Other',
+          severity: 'Info',
+          message: `API ${api.name} has recovered and is now up`,
+          details: {
+            previousStatus,
+            responseTime: statusResult.responseTime,
+            timestamp: statusResult.timestamp
+          }
+        });
+        console.log(`Created recovery alert for API ${api.name}`);
+      }
+    } catch (error) {
+      console.error('Error creating recovery alert:', error);
+    }
   }
 };
 
@@ -203,8 +288,51 @@ const checkAllDueApis = async () => {
   return dueApis.length;
 };
 
+/**
+ * Create a test alert for debugging purposes
+ * @param {Object} alertService - Alert service instance
+ * @returns {Promise<void>}
+ */
+const createTestAlert = async (alertService) => {
+  if (!alertService) {
+    console.error('Alert service not available for test alert');
+    return;
+  }
+  
+  try {
+    // Find the first API with a valid owner
+    const api = await Api.findOne({ owner: { $ne: null } });
+    
+    if (!api) {
+      console.error('No APIs with valid owners found for test alert');
+      return;
+    }
+    
+    console.log('Creating test alert for API:', api.name);
+    
+    // Create a test alert
+    const testAlert = await alertService.createAlert({
+      user: api.owner,
+      api: api._id,
+      alertType: 'Downtime',
+      severity: 'Critical',
+      message: `TEST ALERT: API ${api.name} is experiencing issues`,
+      details: {
+        timestamp: new Date(),
+        testAlert: true
+      }
+    });
+    
+    console.log('Test alert created:', testAlert);
+  } catch (error) {
+    console.error('Error creating test alert:', error);
+  }
+};
+
 module.exports = {
   checkApiStatus,
   updateApiStatus,
-  checkAllDueApis
+  checkAllDueApis,
+  setAlertService,
+  createTestAlert
 }; 

@@ -1,0 +1,1 @@
+- When implementing React components with data fetching, always wrap fetch functions in useCallback and include them in the dependency array of useEffect to prevent infinite rendering loops. This is especially important when the fetch function is defined inside the component and depends on props or state.

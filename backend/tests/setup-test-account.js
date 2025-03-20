@@ -14,8 +14,8 @@ const fs = require('fs');
 const path = require('path');
 
 // Import models
-const User = require('./models/User');
-const Api = require('./models/Api');
+const User = require('../models/User');
+const Api = require('../models/Api');
 
 // Connect to MongoDB
 const connectDB = async () => {
