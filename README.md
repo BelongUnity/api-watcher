@@ -9,12 +9,12 @@ API Watcher is a modern web application for monitoring the status and performanc
 - **Customizable Alerts**: Get notified when your APIs experience issues
 - **User-friendly Dashboard**: Easily manage and monitor all your APIs in one place
 - **Responsive Design**: Access your monitoring dashboard from any device
+- **Advanced Analytics**: Deeper insights into API performance with trend analysis, reliability scoring, and historical data visualization
+- **Instant Alerts**: Immediate notifications when API status changes, with alert history and management
+- **Security Checks**: Verification of SSL certificates, HTTP header analysis, and detection of vulnerabilities with detailed recommendations
 
 ### Coming Soon
 
-- **Advanced Analytics**: Deeper insights into API performance with trend analysis and predictive monitoring
-- **Instant Alerts**: Immediate notifications via SMS, Slack, and webhooks when API status changes
-- **Security Checks**: Verification of SSL certificates and detection of vulnerabilities
 - **In-App Chat**: Real-time support and communication within the application
 - **Knowledge Base**: Comprehensive documentation and guides for API monitoring
 - **Payment Methods**: Secure payment processing for premium features
@@ -34,20 +34,38 @@ The application includes several real-world APIs for testing:
 
 These are all real, publicly available APIs that you can use for testing. Some may require API keys for full functionality, but the application uses demo/sample keys where needed.
 
-In the mock environment, the application simulates API status checks with randomized results to demonstrate the monitoring functionality.
+The application simulates API status checks with randomized results to demonstrate the monitoring functionality.
 
 ## API Status Checking
 
 The "Check Now" functionality allows you to manually trigger a status check for any API. When you click this button:
 
 1. The application sends a request to the backend
-2. The backend simulates checking the API's status (in a real environment, it would make an actual request to the API)
+2. The backend checks the API's status by making a request to the API
 3. The status is recorded with one of three possible states:
-   - **Up**: API is responding normally (75% probability in mock mode)
-   - **Degraded**: API is responding but with high latency (15% probability in mock mode)
-   - **Down**: API is not responding or returning errors (10% probability in mock mode)
+   - **Up**: API is responding normally
+   - **Degraded**: API is responding but with high latency
+   - **Down**: API is not responding or returning errors
 4. The results are displayed on the dashboard and in the API detail view
 5. Notifications are generated for degraded or down status
+
+## Advanced Analytics
+
+The analytics dashboard provides deeper insights into your API performance:
+
+1. **Historical Data Visualization**: View trends in uptime, response time, and error rates over time
+2. **Reliability Scoring**: Get a comprehensive reliability score based on multiple performance metrics
+3. **Performance Trends**: Identify patterns and potential issues before they impact your users
+4. **Exportable Reports**: Generate and download reports in various formats
+
+## Security Checks
+
+The security dashboard allows you to verify the security of your APIs:
+
+1. **SSL Certificate Validation**: Check the validity, expiration, and issuer of your API's SSL certificate
+2. **HTTP Header Analysis**: Analyze security headers and identify missing or misconfigured headers
+3. **Vulnerability Scanning**: Detect common API vulnerabilities and receive actionable recommendations
+4. **Security Score**: Get an overall security score and detailed recommendations for improvement
 
 ## Getting Started
 
@@ -67,7 +85,7 @@ The "Check Now" functionality allows you to manually trigger a status check for 
 2. Install dependencies for both frontend and backend:
    ```
    cd frontend && npm install
-   cd ../backend/mock && npm install
+   cd ../backend && npm install
    ```
 
 ### Running the Application
@@ -82,9 +100,9 @@ On Windows, you can use the provided PowerShell script to start both the fronten
 
 #### Manual Start
 
-1. Start the mock backend:
+1. Start the backend:
    ```
-   cd backend/mock
+   cd backend
    npm start
    ```
 
@@ -96,7 +114,7 @@ On Windows, you can use the provided PowerShell script to start both the fronten
 
 > **Note for Windows PowerShell users**: When running commands manually, use the PowerShell command separator `;` instead of `&&`. For example:
 > ```
-> cd backend/mock; npm start
+> cd backend; npm start
 > ```
 
 3. Open your browser and navigate to:
@@ -124,9 +142,11 @@ api-watcher/
 │   │   └── ...
 │   └── ...
 ├── backend/                # Backend application
-│   ├── mock/               # Mock backend for development
-│   │   ├── db.json         # Mock database
-│   │   └── server.js       # JSON Server configuration
+│   ├── api/                # API routes
+│   ├── models/             # Database models
+│   ├── services/           # Business logic services
+│   ├── middleware/         # Express middleware
+│   ├── config/             # Configuration files
 │   └── ...
 └── ...
 ```
@@ -142,17 +162,16 @@ api-watcher/
 - React Icons
 - Socket.IO Client (for real-time updates)
 
-### Backend (Mock)
-- JSON Server
+### Backend
 - Express.js
+- MongoDB
+- Mongoose
+- JWT Authentication
 - Socket.IO (for real-time updates)
 
 ### Planned Technologies
 - Twilio (for SMS alerts)
 - Stripe (for payment processing)
-- MongoDB (for database)
-- JWT (for authentication)
-- Socket.IO (for real-time chat)
 - Redis (for caching)
 
 ## License
@@ -161,6 +180,5 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Acknowledgments
 
-- [JSON Server](https://github.com/typicode/json-server) for providing a simple mock backend
 - [Chart.js](https://www.chartjs.org/) for beautiful charts
 - [Bootstrap](https://getbootstrap.com/) for responsive design 
